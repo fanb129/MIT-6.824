@@ -24,6 +24,41 @@ type ExampleReply struct {
 
 // Add your RPC definitions here.
 
+type TaskArgs struct{}
+
+type Task struct {
+	TaskType  TaskType // 判断任务类型是map还是reduce
+	TaskId    int
+	ReduceNum int      // 传入的reduce的数量，用于hash
+	Files     []string // 输入文件
+}
+
+type TaskType int
+
+const (
+	MapTask TaskType = iota
+	ReduceTask
+	WaitingTask
+	ExitTask
+)
+
+// Phase 对于分配任务阶段
+type Phase int
+
+const (
+	MapPhase Phase = iota
+	ReducePhase
+	AllDone
+)
+
+// State 任务状态
+type State int
+
+const (
+	Working State = iota
+	Waiting
+	Done
+)
 
 // Cook up a unique-ish UNIX-domain socket name
 // in /var/tmp, for the coordinator.
